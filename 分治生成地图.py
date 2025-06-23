@@ -32,6 +32,6 @@ def get_door_position(maze, row=':', col=':'):
 def dig_maze(maze):
     height = len(maze)
     width = len(maze[0])
-    
+
 the_maze = init_maze(15, 15)
 print_maze(the_maze)
