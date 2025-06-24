@@ -1,5 +1,6 @@
 import random
 
+
 def init_maze(height, width):
     """初始化迷宫为全空格"""
     return [[' ' for _ in range(width)] for _ in range(height)]
