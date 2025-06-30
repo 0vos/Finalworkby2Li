@@ -5,6 +5,7 @@ from collections import namedtuple
 # 定义技能结构
 Skill = namedtuple('Skill', ['damage', 'cooldown'])
 
+
 # 定义状态节点
 class StateNode:
     def __init__(self, boss_index, current_hp, cooldowns, turns, sequence):
