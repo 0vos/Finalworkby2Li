@@ -1,20 +1,20 @@
 the_maze = [
-    list("#S#############"),
-    list("#OOBOOOOOOO#OO#"),
-    list("###O#OOOTOO#OO#"),
-    list("#OGO#OOOOOGOOO#"),
-    list("######O#####OO#"),
-    list("#OOOOOLOOOO#OO#"),
-    list("########O######"),
-    list("#OOOBOOOTOO#OO#"),
-    list("#O##########OO#"),
-    list("#OO#OOOOOBOOOO#"),
-    list("#TO#O#OOOOG#OO#"),
-    list("#OO#O#######OO#"),
-    list("#OO#OOOOLOO#OO#"),
-    list("#OLOO#OOOOO#OOE"),
-    list("###############"),
-]
+    ["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"],
+    ["#","G","T"," ","T","G","#","G","T"," "," "," ","#"," ","#"],
+    ["#","#","#"," ","#","#","#","#","#"," ","#"," ","#"," ","#"],
+    ["#"," ","#"," ","#"," ","#","G","#"," ","#"," ","#","B","S"],
+    ["#"," ","#"," ","#"," ","#","T","#"," ","#"," ","#"," ","#"],
+    ["#"," "," "," "," "," "," "," "," ","T","#"," "," ","L","#"],
+    ["#"," ","#"," ","#","#","#","#","#","#","#","#","#"," ","#"],
+    ["#"," ","#"," "," "," ","#"," ","#","T","T"," "," "," ","#"],
+    ["#"," ","#","#","#","#","#","G","#","#","#"," ","#"," ","#"],
+    ["#","T"," "," "," ","G","#"," "," "," "," "," ","#"," ","#"],
+    ["#","#","#","#","#","#","#","#","#","#","#","#","#","T","#"],
+    ["#","T","#"," "," "," "," "," "," "," ","#"," ","T","T","#"],
+    ["#","G","#"," ","#","T","#"," ","#"," ","#"," ","#"," ","#"],
+    ["#"," "," "," ","#","G","#"," ","#","G"," "," ","#"," ","#"],
+    ["#","#","#","#","#","#","#","#","#","#","#","#","#","E","#"]
+  ]
 def get_start_end(maze):
     print("初始化开始")
     start = (0, 0)
@@ -64,8 +64,9 @@ def max_coins(maze, start, end):
                 if cell == "G" and (nx, ny) not in taken:
                     gain = 5
                     new_taken.add((nx, ny))
-                elif cell == "T":
+                elif cell == "T" and (nx, ny) not in taken:
                     gain = -3
+                    new_taken.add((nx, ny))
                 new_key = (nx, ny, frozenset(new_taken))
                 if new_key in visited and visited[new_key] >= score + gain:
                     continue
@@ -82,13 +83,18 @@ def max_coins(maze, start, end):
             key = prev[key]
         path.append((sx, sy))
         print(f"总步数: {len(path)}")
+        print("路径坐标列表:")
+        for step in reversed(path):
+            print(step)
         return path[::-1]
 
     def visualize_path(maze, path):
         maze_copy = [row[:] for row in maze]
+        # count = 0
         for i, j in path:
             if maze_copy[i][j] not in ("S", "E"):
                 maze_copy[i][j] = "."
+                # count += 1
         print("最优路径图:")
         for row in maze_copy:
             print("".join(row))
