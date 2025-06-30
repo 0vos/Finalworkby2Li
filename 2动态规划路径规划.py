@@ -1,20 +1,5 @@
-the_maze = [
-    ["#","#","#","#","#","#","#","#","#","#","#","#","#","#","#"],
-    ["#","G","T"," ","T","G","#","G","T"," "," "," ","#"," ","#"],
-    ["#","#","#"," ","#","#","#","#","#"," ","#"," ","#"," ","#"],
-    ["#"," ","#"," ","#"," ","#","G","#"," ","#"," ","#","B","S"],
-    ["#"," ","#"," ","#"," ","#","T","#"," ","#"," ","#"," ","#"],
-    ["#"," "," "," "," "," "," "," "," ","T","#"," "," ","L","#"],
-    ["#"," ","#"," ","#","#","#","#","#","#","#","#","#"," ","#"],
-    ["#"," ","#"," "," "," ","#"," ","#","T","T"," "," "," ","#"],
-    ["#"," ","#","#","#","#","#","G","#","#","#"," ","#"," ","#"],
-    ["#","T"," "," "," ","G","#"," "," "," "," "," ","#"," ","#"],
-    ["#","#","#","#","#","#","#","#","#","#","#","#","#","T","#"],
-    ["#","T","#"," "," "," "," "," "," "," ","#"," ","T","T","#"],
-    ["#","G","#"," ","#","T","#"," ","#"," ","#"," ","#"," ","#"],
-    ["#"," "," "," ","#","G","#"," ","#","G"," "," ","#"," ","#"],
-    ["#","#","#","#","#","#","#","#","#","#","#","#","#","E","#"]
-  ]
+from 输入输出 import load_data_from_json, save_maze_result_2
+
 def get_start_end(maze):
     print("初始化开始")
     start = (0, 0)
@@ -62,10 +47,10 @@ def max_coins(maze, start, end):
                 gain = 0
                 new_taken = set(taken)
                 if cell == "G" and (nx, ny) not in taken:
-                    gain = 5
+                    gain = 50
                     new_taken.add((nx, ny))
                 elif cell == "T" and (nx, ny) not in taken:
-                    gain = -3
+                    gain = -30
                     new_taken.add((nx, ny))
                 new_key = (nx, ny, frozenset(new_taken))
                 if new_key in visited and visited[new_key] >= score + gain:
@@ -102,9 +87,13 @@ def max_coins(maze, start, end):
     if final_key:
         path = reconstruct_path(final_key)
         visualize_path(maze, path)
-        return visited[final_key]
+        return visited[final_key], path
     return None
 
-start_pos, end_pos = get_start_end(the_maze)
-max_c = max_coins(the_maze, start_pos, end_pos)
-print(max_c)
+if __name__ == "__main__":
+    file_path = "验收及测试文件/dp测试集/hard/maze_15_15_2.json"
+    the_maze = load_data_from_json(file_path, "maze")
+    start_pos, end_pos = get_start_end(the_maze)
+    max_c, route = max_coins(the_maze, start_pos, end_pos)
+    save_maze_result_2("result_maze.json", the_maze, max_c, route)
+    print(max_c)
