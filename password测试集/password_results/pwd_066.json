@@ -1,0 +1,15 @@
+{
+  "C": [
+    [3,0],
+    [-1,-1,2],
+    [8,-1,-1]
+  ],
+  "L": "c5bd2537c8bfef39796808198d5c8229bda3d1b13ecedc53f25f197af2054c07",
+  "password": "802",
+  "results": {
+    "sequential": {"tries": 1, "password": [8, 0, 2]},
+    "binary": {"tries": 3, "password": [8, 0, 2]},
+    "random": {"tries": 9, "password": [8, 0, 2]},
+    "reverse": {"tries": 10, "password": [8, 0, 2]}
+  }
+}

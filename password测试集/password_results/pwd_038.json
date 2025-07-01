@@ -1,0 +1,13 @@
+{
+  "C": [
+    [2,1]
+  ],
+  "L": "436a59255723635c6e7ceb0282f2332cb2f06fe7cb174544eda667b2c64d3351",
+  "password": "935",
+  "results": {
+    "sequential": {"tries": 466, "password": [9, 3, 5]},
+    "binary": {"tries": 477, "password": [9, 3, 5]},
+    "random": {"tries": 432, "password": [9, 3, 5]},
+    "reverse": {"tries": 35, "password": [9, 3, 5]}
+  }
+}
