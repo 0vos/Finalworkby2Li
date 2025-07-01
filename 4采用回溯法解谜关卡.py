@@ -1,4 +1,8 @@
+import json
+
 from 样例.Lock import PasswordLock
+from 输入输出 import load_data_from_json
+import os
 # import ast
 
 def is_prime(d):
@@ -65,7 +69,7 @@ def solve_with_backtracking(clues, target_hash):
     print(f"最终金币变化数: {gets[0]}")
     if not result:
         print("没有找到密码")
-    return result, gets[0]
+    return result, gets[0], tries[0]
 
 
 def L_generator():
@@ -76,18 +80,50 @@ def L_generator():
 
 # 示例输入
 if __name__ == "__main__":
-    position = (0, 0)
-    C = [
-    [-1,-1],
-    [-1,2,-1],
-    [3,1]
-  ]
-    # C = [
-    #     [-1, 7, -1],
-    #     [1, 1],
-    #     [2, 1]
-    # ]
-    L = L_generator()
-    # L = "ef489e31e9f932ff343749a1f66f5132e4392161979ab6c75f7958b2107aa3aa"
-    password, coins = solve_with_backtracking(C, L)
-    print(f"密码：{password[0]}, 金币变化：{coins}")
+    # 多文件文件输入输出
+    input_dir = 'password测试集/password_test'  # 原始文件所在的目录
+    output_json_dir = 'password_result_student'  # 每个文件的结果保存的目录
+    summary_file = 'summary.txt'  # 汇总结果文件
+
+    os.makedirs(output_json_dir, exist_ok=True)
+
+    total_tries = 0
+
+    for filename in os.listdir(input_dir):
+        filepath = os.path.join(input_dir, filename)
+        if os.path.isfile(filepath):
+            C = load_data_from_json(filepath, "C")
+            L = load_data_from_json(filepath, "L")
+            password, coins, tries = solve_with_backtracking(C, L)
+
+            result = {
+                "C": C,
+                "L": L,
+                "password": password,
+                "tries": tries
+            }
+            json_path = os.path.join(output_json_dir, filename + '.json')
+            with open(json_path, 'w', encoding='utf-8') as jf:
+                json.dump(result, jf, ensure_ascii=False, indent=2)
+
+            total_tries += tries
+
+    with open(summary_file, 'w', encoding='utf-8') as sf:
+        sf.write(f"次数总和：{total_tries}\n")
+
+  #   # 单独的情况
+  #   position = (0, 0)
+  #   C = [
+  #   [-1,-1],
+  #   [-1,2,-1],
+  #   [3,1]
+  # ]
+  #   # C = [
+  #   #     [-1, 7, -1],
+  #   #     [1, 1],
+  #   #     [2, 1]
+  #   # ]
+  #   L = L_generator()
+  #   # L = "ef489e31e9f932ff343749a1f66f5132e4392161979ab6c75f7958b2107aa3aa"
+  #   password, coins, tries = solve_with_backtracking(C, L)
+  #   print(f"密码：{password[0]}, 金币变化：{coins}")
