@@ -56,7 +56,9 @@ class Character:
             time.sleep(0.3)
 
             cell = maze_scene.maze[pos[0]][pos[1]]
-            if cell == 'L':
+            if cell in ('G', 'T'):
+                maze_scene.update_cell(pos, ' ')  # 采集金币或触发陷阱后设为路
+            elif cell == 'L':
                 LockScene().enter()
                 maze_scene.update_cell(pos, ' ')  # 解锁完成
             elif cell == 'B':
