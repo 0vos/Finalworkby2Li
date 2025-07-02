@@ -254,8 +254,8 @@ def explore_and_collect(maze, start):
         if start_val == 'G':
             maze[start[0]][start[1]] = ' '
     
-    # 起点也算一步，扣除0.01
-    total_resource -= 0.01
+    # 起点也算一步，扣除0.002
+    total_resource -= 0.002
 
     while step_count < max_steps:
         step_count += 1
