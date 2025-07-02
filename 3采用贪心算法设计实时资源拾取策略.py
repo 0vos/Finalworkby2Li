@@ -158,25 +158,26 @@ def bfs_to_exit(maze, start, goal):
 # 测试入口
 if __name__ == "__main__":
     maze = [
-    list("###############"),
-    list("#      # #  # #"),
-    list("# #### # #B # #"),
-    list("#L #     # B# #"),
-    list("#  #  L#    # #"),
-    list("#  #  G# #  #T#"),
-    list("########G#  # #"),
-    list("S      # ##B#B#"),
-    list("#  G  GT #T  T#"),
-    list("## ############"),
-    list("#  #T    #    #"),
-    list("## # ##### B  #"),
-    list("#  #G    #    #"),
-    list("#L            #"),
-    list("###########E###")
+    list("###########S###"),
+    list("# GTG#        #"),
+    list("###G### #######"),
+    list("# T   #   # #G#"),
+    list("### # ### # #G#"),
+    list("# G # #G    GT#"),
+    list("### # #####T#T#"),
+    list("# # # #     # #"),
+    list("#T# # ### ### #"),
+    list("#   #       # #"),
+    list("# #############"),
+    list("#   #G# T #GT #"),
+    list("### #T# ##### #"),
+    list("#    L  B   TG#"),
+    list("#########E#####")
+
 ]
 
 
-    start = (0, 1)
+    start = (0, 11)
     print("初始迷宫：")
     for row in maze:
         print(''.join(row))
