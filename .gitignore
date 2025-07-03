@@ -19,5 +19,5 @@ __pycache__/
 *.DS_Store
 
 password_result_student/
-*.txt
+summary.txt
 mp42gif.py
