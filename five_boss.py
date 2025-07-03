@@ -110,7 +110,7 @@ def min_turns_to_defeat(B, PlayerSkills):
 
 if __name__ == "__main__":
     # 定义 JSON 文件路径
-    file_path = "样例/BOSS战样例/boss_case_1.json"
+    file_path = "test_and_manual/样例/BOSS战样例/boss_case_1.json"
     # 从 JSON 文件中加载 BOSS 生命值数据
     B = load_data_from_json(file_path, "B")
     # 从 JSON 文件中加载玩家技能数据

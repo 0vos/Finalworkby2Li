@@ -109,7 +109,7 @@ class Character:
 
 class LockScene:
     def __init__(self):
-        from 样例.Lock import PasswordLock
+        from test_and_manual.样例.Lock import PasswordLock
         self.PasswordLock = PasswordLock
 
     def enter(self, file_name):
@@ -365,7 +365,7 @@ class EndScene:
         exit()
 
 if __name__ == '__main__':
-    filepath = "maze_15_15.json"
+    filepath = "test_and_manual/maze_15_15.json"
     play_music("music/maze.mp3")  # 🎵 播放迷宫音乐
     the_maze = load_data_from_json(filepath, "maze")
     scene = MazeScene(the_maze, the_images)

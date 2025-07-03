@@ -1,6 +1,6 @@
 import json
 
-from 样例.Lock import PasswordLock
+from test_and_manual.样例.Lock import PasswordLock
 from input_output import load_data_from_json
 import os
 # import ast
@@ -81,7 +81,7 @@ def L_generator():
 # 示例输入
 if __name__ == "__main__":
     # 多文件文件输入输出
-    input_dir = 'password测试集/password_test'  # 原始文件所在的目录
+    input_dir = 'test_and_manual/password测试集/password_test'  # 原始文件所在的目录
     output_json_dir = 'password_result_student'  # 每个文件的结果保存的目录
     summary_file = 'summary.txt'  # 汇总结果文件
 
