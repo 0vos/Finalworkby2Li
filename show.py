@@ -32,16 +32,31 @@ class MazeScene:
         self.maze = maze
         self.images = images
 
-    def render_maze(self):
-        # 渲染迷宫
+    def render_maze(self, player_pos=None, reveal_all=False):
+        # 渲染迷宫，只渲染以玩家为中心的九宫格
         for row_idx, row in enumerate(self.maze):
             for col_idx, cell in enumerate(row):
-                image = self.images.get(cell, self.images[' '])  # 默认用 floor
-                screen.blit(image, (col_idx * tile_size, row_idx * tile_size + 24))
+                in_view = reveal_all
+                if player_pos:
+                    pr, pc = player_pos
+                    if abs(row_idx - pr) <= 1 and abs(col_idx - pc) <= 1:
+                        in_view = True
+                if in_view:
+                    image = self.images.get(cell, self.images[' '])  # 默认用 floor
+                    screen.blit(image, (col_idx * tile_size, row_idx * tile_size + 24))
         pygame.draw.rect(screen, (20, 20, 20), (0, 0, width, 24))
         font = pygame.font.SysFont(None, 24)
         text = font.render(f"Gold: {resource_value}", True, (255, 255, 0))
         screen.blit(text, (width - 120, 2))
+        # 遮罩
+        if not reveal_all and player_pos:
+            shade = pygame.Surface((width, height + 24), flags=pygame.SRCALPHA)
+            shade.fill((0, 0, 0, 180))
+            for row in range(len(self.maze)):
+                for col in range(len(self.maze[0])):
+                    if abs(row - player_pos[0]) <= 1 and abs(col - player_pos[1]) <= 1:
+                        pygame.draw.rect(shade, (0, 0, 0, 0), (col * tile_size, row * tile_size + 24, tile_size, tile_size))
+            screen.blit(shade, (0, 0))
 
     def update_cell(self, pos, value):
         self.maze[pos[0]][pos[1]] = value
@@ -56,9 +71,10 @@ class Character:
 
     def walk_path(self, maze_scene, path, file_name, five_result):
         global resource_value
+        reveal_timer = 0
         for idx, pos in enumerate(path):
             pygame.event.pump()
-            maze_scene.render_maze()
+            maze_scene.render_maze(pos, reveal_all=(reveal_timer > 0))
             self.paint_character(pos)
             pygame.display.update()
             time.sleep(0.3)
@@ -67,6 +83,7 @@ class Character:
             if cell == 'G':
                 maze_scene.update_cell(pos, ' ')
                 resource_value += 50
+                reveal_timer = 6  # 显示全地图若干帧
             elif cell == 'T':
                 maze_scene.update_cell(pos, ' ')
                 resource_value -= 30
@@ -79,6 +96,8 @@ class Character:
             elif cell == 'E':
                 EndScene().enter()
                 return
+            if reveal_timer > 0:
+                reveal_timer -= 1
 
 class LockScene:
     def __init__(self):
@@ -247,13 +266,13 @@ class BossScene:
 
             # 绘制玩家
             screen.blit(player_img, (width//2 - 32, 300))
-
+            skills = ['Fire', 'Water', 'Lightning', 'Rock']
             # 绘制技能冷却
             for i, cd in enumerate(self.cooldowns):
                 x = 50 + i * 100
                 bar_y = 400
                 # 绘制技能标签
-                skill_label = self.font.render(f"Skill{i+1}", True, (255, 255, 255))
+                skill_label = self.font.render(f"{skills[i]}", True, (255, 255, 255))
                 screen.blit(skill_label, (x, bar_y - 20))
                 cd_percent = cd / self.player_skills[i][1] if self.player_skills[i][1] > 0 else 0
                 self.draw_bar(x, bar_y, 64, 10, 1 - cd_percent, (0, 0, 255))
