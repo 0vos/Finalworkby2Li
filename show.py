@@ -1,7 +1,7 @@
 from three_greedy_torch import explore_and_collect, bfs_to_exit
-from four_backtrace import solve_with_backtracking
 from five_boss import min_turns_to_defeat
 from input_output import load_data_from_json
+import math
 import pygame
 import time
 import copy
@@ -141,13 +141,14 @@ class LockScene:
                             return False
             return True
 
-        def draw_gradient_background(surface, top_color, bottom_color):
+        def draw_gradient_background(surface, top_color, bottom_color, flicker_time):
             height = surface.get_height()
+            flicker_strength = int(40 * abs(math.sin(flicker_time * 2)))  # 动态闪烁
             for y in range(height):
                 ratio = y / height
-                r = int(top_color[0] * (1 - ratio) + bottom_color[0] * ratio)
-                g = int(top_color[1] * (1 - ratio) + bottom_color[1] * ratio)
-                b = int(top_color[2] * (1 - ratio) + bottom_color[2] * ratio)
+                r = min(255, int(top_color[0] * (1 - ratio) + bottom_color[0] * ratio) + flicker_strength)
+                g = min(255, int(top_color[1] * (1 - ratio) + bottom_color[1] * ratio) + flicker_strength)
+                b = min(255, int(top_color[2] * (1 - ratio) + bottom_color[2] * ratio) + flicker_strength)
                 pygame.draw.line(surface, (r, g, b), (0, y), (surface.get_width(), y))
 
         def solve_visual(clues, target_hash):
@@ -165,7 +166,7 @@ class LockScene:
             coins = [0]
 
             def draw_status(path, status):
-                draw_gradient_background(screen, (10, 10, 40), (25, 25, 70))
+                draw_gradient_background(screen, (0, 0, 0), (255, 80, 0), time.time())
                 info_rect = pygame.Surface((400, 100), pygame.SRCALPHA)
                 info_rect.fill((0, 0, 0, 140))
                 screen.blit(info_rect, (40, 80))
@@ -207,7 +208,7 @@ class LockScene:
 
             dfs(0, [])
 
-            draw_gradient_background(screen, (0, 30, 0), (0, 80, 0) if result else (80, 0, 0))
+            draw_gradient_background(screen, (0, 0, 0), (255, 80, 0), time.time())
             info_rect = pygame.Surface((420, 120), pygame.SRCALPHA)
             info_rect.fill((0, 0, 0, 180))
             screen.blit(info_rect, (30, 90))
