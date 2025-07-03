@@ -1,7 +1,7 @@
-from three采用贪心算法设计实时资源拾取策略 import explore_and_collect, bfs_to_exit
-from four采用回溯法解谜关卡 import solve_with_backtracking
-from five import min_turns_to_defeat
-from 输入输出 import load_data_from_json
+from three_greedy_torch import explore_and_collect, bfs_to_exit
+from four_backtrace import solve_with_backtracking
+from five_boss import min_turns_to_defeat
+from input_output import load_data_from_json
 import pygame
 import time
 import copy
@@ -10,6 +10,7 @@ resource_value = 0
 
 # 初始化
 pygame.init()
+pygame.mixer.init()
 width, height = 480, 480
 screen = pygame.display.set_mode((width, height + 24))  # 加高顶部
 tile_size = 32  # 每个图片的宽高像素
@@ -26,6 +27,11 @@ the_images = {
     'L': pygame.image.load("img/lock.png"),
     'P': pygame.image.load("img/player.png")
 }
+
+def play_music(path, loop=-1):
+    pygame.mixer.music.stop()  # 停止当前音乐
+    pygame.mixer.music.load(path)
+    pygame.mixer.music.play(loop)
 
 class MazeScene:
     def __init__(self, maze, images):
@@ -90,9 +96,11 @@ class Character:
             elif cell == 'L':
                 LockScene().enter(file_name)
                 maze_scene.update_cell(pos, ' ')  # 解锁完成
+                play_music("music/maze.mp3")
             elif cell == 'B':
                 BossScene(five_result).enter()
                 maze_scene.update_cell(pos, ' ')  # 打Boss完成
+                play_music("music/maze.mp3")
             elif cell == 'E':
                 EndScene().enter()
                 return
@@ -106,6 +114,7 @@ class LockScene:
 
     def enter(self, file_name):
         print("进入解锁界面...")
+        play_music("music/lock.mp3")  # 🎵 播放lock音乐
 
         def is_prime(d):
             return d in [2, 3, 5, 7]
@@ -209,6 +218,7 @@ class LockScene:
                 end_text = font.render(f" Failed. Attempts: {tries[0]}, Coins: {coins[0]}", True, (255, 180, 180))
             screen.blit(end_text, (50, 120))
 
+            play_music("music/clear.mp3")
             hint_text = small_font.render("Press [z] to exit...", True, (220, 220, 220))
             hint_rect = hint_text.get_rect(center=(240, 250))
             screen.blit(hint_text, hint_rect)
@@ -246,6 +256,7 @@ class BossScene:
 
     def enter(self):
         print("进入Boss战界面...")
+        play_music("music/boss.mp3")  # 🎵 播放boss音乐
         clock = pygame.time.Clock()
         boss_imgs = [pygame.image.load("img/big_boss.png") for _ in self.boss_hp]
         player_img = pygame.image.load("img/player_back.png")
@@ -298,6 +309,7 @@ class BossScene:
             clock.tick(60)
 
         print("击败Boss，返回主迷宫。")
+        play_music("music/clear.mp3")
         global resource_value
         resource_value -= self.min_turns
         font = pygame.font.SysFont(None, 32)
@@ -325,6 +337,7 @@ class EndScene:
     def enter(self):
         global resource_value
         print("进入结算界面...")
+        play_music("music/clear.mp3")
         font = pygame.font.SysFont(None, 64)
         screen.fill((0, 0, 0))
         msg = font.render(f"You won {resource_value} Gold", True, (255, 255, 255))
@@ -352,6 +365,7 @@ class EndScene:
 
 if __name__ == '__main__':
     filepath = "maze_15_15.json"
+    play_music("music/maze.mp3")  # 🎵 播放迷宫音乐
     the_maze = load_data_from_json(filepath, "maze")
     scene = MazeScene(the_maze, the_images)
     character = Character(the_images)
