@@ -153,7 +153,7 @@ class LockScene:
 
         def solve_visual(clues, target_hash):
             pygame.init()
-            screen = pygame.display.set_mode((480, 480))
+            screen = pygame.display.set_mode((480, 504))
             pygame.display.set_caption("LockScene - Cracking Password...")
             font = pygame.font.SysFont(None, 32, bold=True)
             small_font = pygame.font.SysFont(None, 24)
