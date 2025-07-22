@@ -26,4 +26,3 @@ python show.py
 - test_and_manual/: 储存学校下发测试文件和课程设计任务要求
 - img/: 游戏所用贴图
 - music/: 游戏所用音乐
-## 报告
