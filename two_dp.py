@@ -91,9 +91,9 @@ def max_coins(maze, start, end):
     return None
 
 if __name__ == "__main__":
-    file_path = "test_and_manual/验收及测试文件/dp测试集/hard/maze_15_15_2.json"
+    file_path = "test_and_manual/maze_15_15.json"
     the_maze = load_data_from_json(file_path, "maze")
     start_pos, end_pos = get_start_end(the_maze)
     max_c, route = max_coins(the_maze, start_pos, end_pos)
     save_maze_result_2("result_maze.json", the_maze, max_c, route)
-    print(max_c)
+    print("最大资源：", max_c)

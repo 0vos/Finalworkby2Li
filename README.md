@@ -1,28 +1,28 @@
-# 2025算法课程设计
-## 任务说明
-### 1.采用分治法生成迷宫
-初始为空，采用十字建墙的方法分割区域，并在墙上挖门
+# 2025 Algorithm Course Design
+## Task Description
+### 1. Generating a Maze using Divide and Conquer
+Initially empty, using the cross wall-building method to divide areas, and digging doors on the walls.
 ![sample_maze.png](readme_images%2Fsample_maze.png)
-### 2.采用动态规划进行资源收集路径规划（作为实时策略的金标准）
-采用队列记录该位置和该位置的当前资源收集，每次取队头向四个方向移动，如果能获取更多就更新，将更新影响的位置添加到队尾
-### 3.采用贪心算法设计实时资源拾取策略
-在3x3视野中，对每个位置计算"价值分数"，score = val_score - penalty：最终得分，选择当前视野中得分最高的位置，优先选择未访问过的G位置，避免重复访问相同位置（惩罚机制）和陷阱等负价值区域，视野中出现出口E时立即中断资源收集，然后使用BFS算法找到最短路径到达出口
+### 2. Resource Collection Path Planning using Dynamic Programming (As the Gold Standard for Real-time Strategy)
+Uses a queue to record the position and the current resource collection at that position. Each time, taking the head of the queue to move in four directions. If more resources can be obtained, it updates, and adds the positions affected by the update to the tail of the queue.
+### 3. Designing Real-time Resource Pick-up Strategy using Greedy Algorithm
+In a 3x3 field of view, calculates a "value score" for each position, score = val_score - penalty: final score. Selects the position with the highest score in the current field of view, prioritizing unvisited G positions, avoiding repeated visits to the same position (penalty mechanism) and negative value areas like traps. When the exit E appears in the field of view, it immediately interrupts resource collection and uses the BFS algorithm to find the shortest path to the exit.
 
 ![greedy.gif](readme_images%2Fgreedy.gif)
-### 4.采用回溯法解谜关卡
-初始化密码为空列表，遍历每一位数字，添加到空列表中，当列表长度达到3的时候，判断是否完全符合线索的条件，如果是就判断这串密码的哈希值与给定的哈希值是否相同
+### 4. Solving the Puzzle Level using Backtracking
+Initializes the password as an empty list, iterates through each digit, and adds it to the empty list. When the list length reaches 3, it determines whether it completely meets the conditions of the clues. If so, it checks if the hash value of this password string is the same as the given hash value.
 ![lock.gif](readme_images%2Flock.gif)
-### 5.采用分支限界设计BOSS战策略优化
-借助 A* 算法，通过优先队列来探索不同的状态，寻找击败所有 BOSS 所需的最少回合数。在探索过程中，使用平均伤害值估算剩余回合数，同时记录已访问状态以避免重复计算，对不符合要求的状态进行剪枝操作。
+### 5. Boss Battle Strategy Optimization using Branch and Bound
+With the help of the A* algorithm, using a priority queue to explore different states, finding the minimum number of rounds required to defeat all BOSSes. During the exploration process, using the average damage value to estimate the remaining rounds, while recording the visited states to avoid repeated calculations, and pruning the states that do not meet the requirements.
 
 ![boss.gif](readme_images%2Fboss.gif)
 
-## 快速开始
+## Quick Start
 ```sh
 pip install -r requirements.txt
 python show.py
 ```
-## 文件说明
-- test_and_manual/: 储存学校下发测试文件和课程设计任务要求
-- img/: 游戏所用贴图
-- music/: 游戏所用音乐
+## File Description
+- test_and_manual/: Stores the test files distributed by the school and the course design task requirements
+- img/: Textures used in the game
+- music/: Music used in the game
